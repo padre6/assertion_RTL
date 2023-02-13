@@ -3,6 +3,6 @@
 
 2、the SV representation of the sampled value functions's module
 
-3、the SV representation of the sequence's module
+3、the SV representation of the sequence operation's module
 
 4、the SV representation of the basic judgement module
