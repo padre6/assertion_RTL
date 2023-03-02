@@ -9,24 +9,24 @@ module deferred_assertion (
 /*-----------------------------------------------
 FUNCTION:Determine whether the signal is high or low with Sequential Circuits  (0/1)
 -----------------------------------------------*/
-logic   match_1 ;
-logic   fail_1  ;       
-logic   en_1    ;       // Prevents burrs 
+logic   match_0 ;       // delay zero clock 
+logic   fail_0  ;       // delay zero clock 
+logic   en_0    ;       // delay zero clock 
 always_ff @( posedge clk ) begin
-    en_1 <= en;  
+    en_0 <= en;  
     if (signal_in == 1'b1) begin
-        match_1 <= 1'b1   ;
-        fail_1  <= 1'b0    ;
+        match_0 <= 1'b1   ;
+        fail_0  <= 1'b0    ;
     end
     else begin
-        match_1 <= 1'b0   ;
-        fail_1  <= 1'b1   ;
+        match_0 <= 1'b0   ;
+        fail_0  <= 1'b1   ;
     end
     if (rst_n == 1'b0) begin
-        match_1 <= 1'b0;
-        fail_1  <= 1'b0;
+        match_0 <= 1'b0;
+        fail_0  <= 1'b0;
     end
 end
-assign match = match_1  &   en_1  ;     //The signal could be kept for a full cycle
-assign fail  = ~match             ;     //The signal could be kept for a full cycle
+assign match = match_0  &   en_0  ;     //The signal could be kept for a full cycle
+assign fail  = fail_0   &   en_0  ;     //The signal could be kept for a full cycle
 endmodule
