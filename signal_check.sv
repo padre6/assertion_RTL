@@ -9,13 +9,19 @@ output  logic   fail
 /*-----------------------------------------------
 FUNCTION: check the signal_in against the clock
 -----------------------------------------------*/
-logic   output_tri  ; //    the result of the D trigger 
+logic   output_0    ;
+logic   output_1    ;   // delay one clock
+logic   en_0        ;
+logic   en_1        ;    // delay one clock
 always_ff @(posedge clk ) begin
-    output_tri <= signal_in;
+    output_0 <= signal_in;
+    output_1 <= output_0;
+    en_0 <= en;
+    en_1 <= en_0;
     if (rst_n == 1'b0) begin
-        output_tri <= 1'b0;
+        output_1 <= 1'b0;
     end
 end
-assign match = output_tri & en;
-assign fail  = ~match         ;
+assign match = output_1 & en_1  ;
+assign fail  = ~output_1 & en_1  ;
 endmodule
