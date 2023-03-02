@@ -7,12 +7,13 @@ module fell (
     output  logic   fail                //fail signal
 );
 /*-------------------------------------------------------------
-FUNCTION:Get the result of rose
+FUNCTION:Get the result of fell
 -------------------------------------------------------------*/    
 logic   delay_in_1  ;
 logic   delay_in_2  ;
 logic   en_1        ;
 logic   en_2        ;   
+logic   out         ;
 always_ff @( posedge clk ) begin : rose_SV
         delay_in_1 <= signal_in ;
         delay_in_2 <= delay_in_1;
@@ -23,6 +24,7 @@ always_ff @( posedge clk ) begin : rose_SV
         delay_in_2 <= 1'b0  ;
     end
 end
-assign match = (delay_in_2 & ~delay_in_1) & en_2 ;
-assign fail  = ~match;
+assign out   = delay_in_2 & ~delay_in_1     ;  // if fell the out = 1
+assign match = out & en_2                   ;
+assign fail  = ~out & en_2                  ;
 endmodule
